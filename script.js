@@ -25,3 +25,22 @@ function getComputerChoice() {
         return "scissors";
     }
 }
+
+
+
+// human choice function
+// what/purpose? -> To get user input
+
+// HOW:
+
+// create a new function
+// ask the user for input
+// return the user's input
+
+function getHumanChoice() {
+    choice = prompt();
+    return choice;
+}
+
+let humanScore = 0;
+let computerScore = 0;
