@@ -53,7 +53,6 @@
 // create function
 // call playRound function 5 times
 // declare the winner
-
 function getComputerChoice() {
     const num = Math.random();
     if (num < 0.33) {
@@ -138,7 +137,6 @@ function playRound(humanChoice, computerChoice) {
         console.log(`Tie. both chose ${humanChoice} `)
         return "tie"
     }
-    
 }
 
 function playGame() {
@@ -172,4 +170,18 @@ function playGame() {
     }
 }
 
-playGame()
+// playGame()
+
+
+// BUTTON CLICKED FUNCTION
+// WHAT: When a button is clicked, run playround function
+// WHY:
+// HOW:
+// add an event listener to all the buttons
+// on the click, run the playround function, passing the value of the button as the human input
+
+const buttons = document.querySelectorAll(".option")
+buttons.forEach((element) => {
+    element.addEventListener("click", () => playRound(element.value, getComputerChoice));
+})
+
