@@ -130,7 +130,6 @@ function playRound(humanChoice, computerChoice) {
         }
         case "computer": {
             console.log(`Computer won. ${computerChoice} beats ${humanChoice}`)
-
             return "computer"
         }
     }
