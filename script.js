@@ -9,16 +9,11 @@ function getComputerChoice() {
     }
 }
 
-function getHumanChoice() {
-    return(prompt())
-}
-
 function playRound(humanChoice, computerChoice) {
     let tie;
     let winner;
-    humanChoice = humanChoice.toLowerCase();
 
-    if (humanChoice == "rock") {
+    if (humanChoice === "rock") {
        switch (computerChoice) {
         case "rock": {
             tie = true;
@@ -33,7 +28,7 @@ function playRound(humanChoice, computerChoice) {
             break
         }
        }
-    } else if (humanChoice == "paper") {
+    } else if (humanChoice === "paper") {
         switch (computerChoice) {
             case "rock": {
                 winner = "human"
@@ -48,7 +43,7 @@ function playRound(humanChoice, computerChoice) {
                 break
             }
            }
-    } else if (humanChoice == "scissors") {
+    } else if (humanChoice === "scissors") {
         switch (computerChoice) {
             case "rock": {
                 winner = "computer"
@@ -103,13 +98,7 @@ function updateScore(result) {
 }
 
 function winner() {
-    if (humanScore > computerScore) {
-        winnerText.innerText = 'Winner: Human'
-    } else if (computerScore > humanScore) {
-        winnerText.innerText = 'Winner: Computer'
-    } else {
-        winnerText.innerText = 'Something went wroing'
-    }
+    winnerText.innerText = (humanScore > computerScore) ? 'Winner: Human' : 'Winner: Computer'
     endGame()
 }
 
@@ -123,10 +112,8 @@ function endGame() {
     humanScore = 0;
     computerScore = 0;
 
-    buttons.forEach(element => element.style.display = 'none')
-
-    resetBtn.innerText = 'reset'
-    resetDiv.appendChild(resetBtn)
+    buttons.forEach(button => button.disabled = true)
+    resetBtn.style.display = 'block'
 }
 
 // declare variables 
@@ -134,17 +121,18 @@ function endGame() {
 let humanScore = 0;
 let computerScore = 0;
 
-let humanScoreText = document.querySelector('.human-score');
-let computerScoreText = document.querySelector('.computer-score');
-let winnerText = document.querySelector('.winner');
-let roundResultText = document.querySelector('.round-result');
+const humanScoreText = document.querySelector('.human-score');
+const computerScoreText = document.querySelector('.computer-score');
+const winnerText = document.querySelector('.winner');
+const roundResultText = document.querySelector('.round-result');
 const buttons = document.querySelectorAll(".option")
-const resetBtn = document.createElement('button')
+const resetBtn = document.querySelector('.reset-btn')
 const resetDiv = document.querySelector('.reset-container')
+
+resetBtn.style.display = 'none';
 
 // add event liseners
 
 buttons.forEach(button => button.addEventListener("click", handleClick))
 
 resetBtn.addEventListener('click', () => location.reload())
-
