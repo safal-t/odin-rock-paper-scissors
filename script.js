@@ -1,58 +1,3 @@
-// computer choice function
-//  what/purpose? -> choose between rock paper and sisccors
-// why? -> for the user to be able to play a game of RPS
-// HOW:
-
-// when the function is called,
-// it should choose between RPS
-// generate a random number between 0-.99
-// if that number is 0-.33:
-    // console.log R
-// if that number is .33-.66:
-    // console.log P
-// if that number is .66-.99:
-    //console.log S
-
-
-// human choice function
-// what/purpose? -> To get user input
-// HOW:
-
-// create a new function
-// ask the user for input
-// console.log the user's input
-
-// play round function'
-// what/purpose?? -> To get human and computer input and simuylare a round of RPS
-// HOW:
-
-// store the human and computer inputs 
-
-// call the function
-// create a winner variable
-// lowercase the human input
-// if the human inputsed rock:
-    // compare the computer input 
-        // rock 
-            // tie
-        // paper 
-            // comp wins
-        // scissors 
-            // human wins
-// repeat for paper and scissors
-// if human won increment the human score
-// elif comp won increment the comp score
-// else nothing
-// if there is a winner log the winner and how they won
-
-
-// play game function
-// What/purpose? -> run multiple rounds to simulate a game
-// HOW:
-
-// create function
-// call playRound function 5 times
-// declare the winner
 function getComputerChoice() {
     const num = Math.random();
     if (num < 0.33) {
@@ -124,64 +69,82 @@ function playRound(humanChoice, computerChoice) {
 
     switch (winner) {
         case "human": {
-            console.log(`Human won. ${humanChoice} beats ${computerChoice}`)
+            roundResultText.innerText = `Human won. ${humanChoice} beats ${computerChoice}`
             return "human"
         }
         case "computer": {
-            console.log(`Computer won. ${computerChoice} beats ${humanChoice}`)
+            roundResultText.innerText = `Computer won. ${computerChoice} beats ${humanChoice}`
             return "computer"
         }
     }
 
     if (tie) {
-        console.log(`Tie. both chose ${humanChoice} `)
+        roundResultText.innerText = `Tie. both chose ${humanChoice} `
         return "tie"
     }
 }
 
-function playGame() {
-
-    let humanScore = 0;
-    let computerScore = 0;
-
-    for (let i = 0; i <=5; i++) {
-        let humanSelection = getHumanChoice();
-        let computerSelection = getComputerChoice();
-        let result = playRound(humanSelection, computerSelection);
-
-        switch (result) {
-            case "human": {
-                humanScore++
-                break
-            }
-            case "computer": {
-                computerScore++
-                break
-            }
+function updateScore(result) {
+    switch (result) {
+        case "human": {
+            humanScore++
+            humanScoreText.innerText = `Human Score: ${humanScore}`
+            break
         }
-    }
-
-    if (humanScore > computerScore) {
-        console.log("Human wins the game")
-    } else if (computerScore > humanScore) {
-        console.log("Computer wins the game")
-    } else {
-        console.log("tie")
+        case "computer": {
+            computerScore++
+            computerScoreText.innerText = `Computer Score: ${computerScore}`
+            break
+        }
+        case "tie" : {
+            break
+        }
     }
 }
 
-// playGame()
+function winner() {
+    if (humanScore > computerScore) {
+        winnerText.innerText = 'Winner: Human'
+    } else if (computerScore > humanScore) {
+        winnerText.innerText = 'Winner: Computer'
+    } else {
+        winnerText.innerText = 'Something went wroing'
+    }
+    endGame()
+}
 
+function handleClick(event) {
+    let result = playRound(event.target.value, getComputerChoice())
+    updateScore(result)
+    if (humanScore >= 5 || computerScore >= 5) winner()
+}
 
-// BUTTON CLICKED FUNCTION
-// WHAT: When a button is clicked, run playround function
-// WHY:
-// HOW:
-// add an event listener to all the buttons
-// on the click, run the playround function, passing the value of the button as the human input
+function endGame() {
+    humanScore = 0;
+    computerScore = 0;
 
+    buttons.forEach(element => element.style.display = 'none')
+
+    resetBtn.innerText = 'reset'
+    resetDiv.appendChild(resetBtn)
+}
+
+// declare variables 
+
+let humanScore = 0;
+let computerScore = 0;
+
+let humanScoreText = document.querySelector('.human-score');
+let computerScoreText = document.querySelector('.computer-score');
+let winnerText = document.querySelector('.winner');
+let roundResultText = document.querySelector('.round-result');
 const buttons = document.querySelectorAll(".option")
-buttons.forEach((element) => {
-    element.addEventListener("click", () => playRound(element.value, getComputerChoice));
-})
+const resetBtn = document.createElement('button')
+const resetDiv = document.querySelector('.reset-container')
+
+// add event liseners
+
+buttons.forEach(button => button.addEventListener("click", handleClick))
+
+resetBtn.addEventListener('click', () => location.reload())
 
